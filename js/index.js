@@ -202,10 +202,15 @@ let user_year;
             update_output()
         }
     })
+    
+    prevButton_month.addEventListener('click', () => {
+        const yearLimit = DateTime.fromObject({ year: 1950, month: 1, day: 1 }, { zone: now.zone })
+        const previousMonth = currentMonth.minus({ months: 1 })
 
-    prevButton_month.addEventListener(('click'),()=>{
-        calendar_count--
-        update_output()
+        if (previousMonth >= yearLimit) {
+            calendar_count--
+            update_output()
+        }
     })
 
     function update_output(){
