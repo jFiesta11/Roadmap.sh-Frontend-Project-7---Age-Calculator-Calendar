@@ -55,6 +55,13 @@ let user_year;
         })
     }
 
+    function updateMonthLabel() {
+        const monthLabel = document.querySelector('.month h5')
+        const targetMonth = currentMonth.plus({ months: calendar_count })
+
+        monthLabel.textContent = `${targetMonth.toFormat('MMMM')} ${targetMonth.year}`
+    }
+
     input.forEach((e,i) => {
         let max = e.maxLength
 
@@ -104,41 +111,28 @@ let user_year;
     const calendar_content = document.querySelector(".calendar-container")
 
     calendar_button.addEventListener('click', ()=>{
-        calendar_content.classList.toggle("hidden")
+        calendar_content.classList.toggle("show")
     
     })
-    // function nextMonth(){
-
-    // }
+    const startingMonth = DateTime.fromObject({ year: 2026, month: 7, day: 1 }, { zone: now.zone })
+    let currentMonth = startingMonth
     let calendar_count = 0
-    
-    function calendar_days(user_index){
+
+    function calendar_days(targetMonth){
         let grid = []
-        // month in a year
-        let year_interval = Interval.fromDateTimes(now.startOf('year'),now.endOf('year'))
-        let monthsin_year  = year_interval.splitBy({month : 1}).map(m => m.start)
-        
-        // target month
-        let target_month = monthsin_year[user_index]
 
-        // days in a month
-        let month_interval = Interval.fromDateTimes(target_month.startOf('month'),target_month.endOf('month'))
-        let daysin_month  = month_interval.splitBy({days : 1}).map(d => d.start)
+        let month_interval = Interval.fromDateTimes(targetMonth.startOf('month'), targetMonth.endOf('month'))
+        let daysin_month = month_interval.splitBy({days : 1}).map(d => d.start)
 
-        // daysin_month array length
         const days_count = daysin_month.length
-        
-        // the first day of the week of target_month
-        const firstday_weekday = target_month.weekday 
-
+        const firstday_weekday = targetMonth.weekday
         const leading_empty = firstday_weekday === 7 ? 0 : firstday_weekday
-
         const grid_slots = 42
         const trail_empty = grid_slots - (leading_empty + days_count)
 
         let leading_spaces = new Array(leading_empty).fill(null)
         let trailing_spaces = new Array(trail_empty).fill(null)
-        
+
         let first = leading_spaces.map(grid => ({origin:'leading_space', value : grid}))
         let second = daysin_month.map(grid => ({origin:'daysin_month', value: grid}))
         let third = trailing_spaces.map(grid => ({origin:'trailing_space', value: grid}))
@@ -146,11 +140,9 @@ let user_year;
         grid = [...first, ...second, ...third]
 
         return grid;
-    } 
+    }
 
-    
-
-    function display_calendar(array){
+    function display_calendar(array, monthDate){
         let grid_container = document.querySelector('.days')
         
         
@@ -178,13 +170,12 @@ let user_year;
             
             grids.addEventListener(('click'), (event) =>{
                 const days = document.querySelectorAll('.day')
-                const targetDate = now.plus({ months: calendar_count })
 
                 days.forEach((d)=>{
                     d.classList.remove('active')
                 })
                 event.target.classList.add('active')
-                updateDateInputs(day_number, targetDate.month, targetDate.year)
+                updateDateInputs(day_number, monthDate.month, monthDate.year)
             })
 
             grid_container.append(grids)
@@ -201,33 +192,111 @@ let user_year;
         });
     }
 
-    const nextButton = document.querySelector('.next')
-    const prevButton = document.querySelector('.prev')
+    const nextButton_month = document.querySelector('.next')
+    const prevButton_month = document.querySelector('.prev')
 
-    nextButton.addEventListener(('click'),()=>{
-        if((calendar_count+1) != 12){
+    nextButton_month.addEventListener(('click'),()=>{
+        const nextMonth = currentMonth.plus({ months: calendar_count + 1 })
+        if(nextMonth <= now.startOf('month')){
             calendar_count++
             update_output()
         }
-            return;
     })
 
-    prevButton.addEventListener(('click'),()=>{
-        if((calendar_count-1) >= 0){
-            calendar_count--
-            update_output()
-        }
-        return;
+    prevButton_month.addEventListener(('click'),()=>{
+        calendar_count--
+        update_output()
     })
 
     function update_output(){
+        const targetMonth = currentMonth.plus({ months: calendar_count })
         document.querySelector('.days').innerHTML =''
-        display_calendar(calendar_days(calendar_count))
-        
-        // prototype_for_now_lolz
+        display_calendar(calendar_days(targetMonth), targetMonth)
+        updateMonthLabel()
+    }
 
+    const month_button = document.querySelector('.month')
+    const month_year_options = document.querySelector('.month-year-options')
+    const prev_year_button = document.querySelector('.prev_year')
+    const next_year_button = document.querySelector('.next_year')
 
-    }    
+    month_year_options.classList.toggle('hidden')
+
+    let yearWindowStart = 1950
+    let selectedYear = 2026
+    let selectedMonth = 7
+
+    function show_yearMonth_options(){
+        month_year_options.innerHTML = ''
+
+        const yearsToShow = 8
+        const maxYear = Math.min(year, 2026)
+        const minYear = Math.max(1950, yearWindowStart)
+        const startYear = Math.min(minYear, maxYear - yearsToShow + 1)
+
+        for (let y = startYear; y < startYear + yearsToShow; y++) {
+            const element_container = document.createElement('button')
+            element_container.className = 'yearMonth_grid'
+            element_container.textContent = y
+            element_container.addEventListener('click', () => {
+                selectedYear = y
+                show_month_options(selectedYear)
+            })
+            month_year_options.appendChild(element_container)
+        }
+    }
+
+    function show_month_options(yearToShow){
+        month_year_options.innerHTML = ''
+
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+        monthNames.forEach((monthName, index) => {
+            const month_button_item = document.createElement('button')
+            month_button_item.className = 'yearMonth_grid'
+            month_button_item.textContent = `${monthName}`
+            month_button_item.addEventListener('click', () => {
+                selectedMonth = index + 1
+                currentMonth = DateTime.fromObject({ year: yearToShow, month: selectedMonth, day: 1 }, { zone: now.zone })
+                calendar_count = 0
+                update_output()
+
+                month_year_options.classList.add('hidden')
+                document.querySelector('.days').classList.remove('hidden')
+                document.querySelector('.days-container').classList.remove('hidden')
+                document.querySelector('.prev_year').classList.remove('show')
+                document.querySelector('.next_year').classList.remove('show')
+                prevButton_month.classList.remove('hidden')
+                nextButton_month.classList.remove('hidden')
+                month_button.classList.remove('adjust')
+            })
+            month_year_options.appendChild(month_button_item)
+        })
+    }
+
+    prev_year_button.addEventListener('click', () => {
+        yearWindowStart = Math.max(1950, yearWindowStart - 8)
+        show_yearMonth_options()
+    })
+
+    next_year_button.addEventListener('click', () => {
+        yearWindowStart = Math.min(2026, yearWindowStart + 8)
+        show_yearMonth_options()
+    })
+
+    month_button.addEventListener('click', ()=>{
+        month_button.classList.toggle('adjust')
+        document.querySelector('.days').classList.toggle('hidden')
+        document.querySelector('.month-year-options').classList.toggle('hidden')
+        document.querySelector('.days-container').classList.toggle('hidden')
+
+        document.querySelector('.prev_year').classList.toggle('show')
+        document.querySelector('.next_year').classList.toggle('show')
+
+        prevButton_month.classList.toggle('hidden')
+        nextButton_month.classList.toggle('hidden')
+
+        show_yearMonth_options()
+    
+    })
     update_output()
-    
-    

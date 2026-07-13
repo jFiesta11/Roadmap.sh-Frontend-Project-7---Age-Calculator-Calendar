@@ -147,14 +147,14 @@ section{
 }
 
 .month-container{
-    gap: 10%;
+    padding-top: 15px;
     display: flex;
     width: 100%;
     height: 50%;
     justify-content: center;
     align-items: center;
 }
-.prev, .next{
+.prev, .next, .prev_year, .next_year{
     all: unset;
     width: 15%;
     cursor: pointer;
@@ -173,11 +173,47 @@ section{
 
    
 }
-.month-container h5{
+.prev_year,.next_year{
+    display: none;
+    margin-top: 15px;
+}
+.month{
+    all: unset;
+    width: 70%;
+    height: 40px;
+    transition: .1s ease-in-out;
+    outline: .5px solid #1915173d;
+    box-shadow: 0px 2px #39343661;
+    border-radius: 5px;
+
+    &:focus-visible{
+        outline-color: var(--second-color);
+        box-shadow: 0px 2px var(--shadow-color);
+        outline-width: 1px;
+    }
+    &:active{
+        box-shadow: 0px 0px;
+        transition: .1s ease-in-out;
+        transform: translateY(1px);
+    }
+    
+   
+}
+.month h5{
+    height: 100%;
+    filter: drop-shadow(0px 1px var(--shadow-color));
+    color: var(--second-color);
     display: flex;
     justify-content: center;
-    font-size: 1.3rem;
-    width: 50%;
+    align-items: center;
+    font-size: 1.4rem;
+    transition: .05s ease-in-out;
+    
+    &:active{
+        transition: .05s ease-in-out;
+        filter: drop-shadow(0px 0px var(--shadow-color));
+        transform: translateY(1px);
+    }
 
 }
 .days-container{
@@ -188,6 +224,7 @@ section{
 }
 
 .days-container p{
+    color: var(--dark-color);
     font-weight: 700;
     font-size: 1.2rem;
     display: flex;
@@ -290,4 +327,47 @@ section{
     font-weight: 600;
 }
 
-.hidden{display:flex;}
+.month-year-options{
+    display: none;
+    justify-content: center;
+    flex-wrap: wrap;
+    border: 2px solid var(--dark-color);
+    display: flex;
+    width: 100%;
+    height: 400px;
+    padding: 10px;
+    gap: 10px;
+}
+.yearMonth_grid{
+    background-color: var(--second-color);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    width: 45%;
+    height: auto;
+
+    border: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--light-color);
+
+    transition: .1s ease-in-out;
+    box-shadow: 0px 2px var(--shadow-color);
+    border-radius: 5px;
+    
+    &:focus-visible{
+        outline: none;
+        box-shadow: 0px 2px var(--shadow-color);
+        border: 3px solid #af4e34;
+    }
+    &:active{
+        box-shadow: 0px 0px;
+        transition: .1s ease-in-out;
+        transform: translateY(2px);
+    }
+}
+.show{display:flex;}
+.hidden{display:none;}
+.adjust{margin-top: 10px;}
