@@ -1,0 +1,16 @@
+{
+  "name": "age-calculator",
+  "version": "1.0.0",
+  "description": "* Uses HTML 5, and CSS only. JavaScript will come in hand in the future. \r * Implements **Grid Positioning**\r * Includes a custom **Favicon**\r * The datepicker has an input with a place holder, and grid positioned day boxes\r * The project is pure CSS placeholders only, as functionality for this project will be implemented in future projects.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "luxon": "^3.7.2"
+  }
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/images/favicon.svg">
+    <title>Calendar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900');
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <h1>Age Calculator</h1>
+    </header>
+    <main>
+        <section>
+            <div class="date-input-container">
+                <div class="input-container">
+                    <input class="calendar-input" required placeholder="dd" inputmode="numeric" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2)" maxlength="2" minlength="1" >
+                    <p>/</p>
+                    <input class="calendar-input" required placeholder="mm" inputmode="numeric" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2) " maxlength="2" minlength="1">
+                    <p>/</p>
+                    <input class="calendar-input" required placeholder="yyyy" inputmode="numeric" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 4) " maxlength="4" minlength="4">
+                </div>
+                <div class="calendar-button"><button><img src="assets/images/favicon.svg"></button></div>
+            </div>
+            <div class="calendar-container">
+                <header class="calendar-header">
+                    <div class="month-container">
+                        <button class="prev"><img src="assets/images/left-butt.svg"></button>
+                        <h5>January 2026</h5>
+                        <button class="next"><img src="assets/images/right-butt.svg"></button>
+                    </div>
+                    <div class="days-container">
+                        <p>S</p>
+                        <p>M</p>
+                        <p>T</p>
+                        <p>W</p>
+                        <p>T</p>
+                        <p>F</p>
+                        <p>S</p>
+                    </div>
+                </header>
+                <div class="days">
+                    
+                </div>
+            </div>
+            <span class="calculate-container"><button class="calculate-button">Calculate</button></button></span>
+            <span class="result-container"><p></p></span>
+        </section>
+    </main>
+    <script src="js/index.js" type="module"></script>
+</body>
+</html>
