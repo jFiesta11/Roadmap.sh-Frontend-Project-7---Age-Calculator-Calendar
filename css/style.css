@@ -209,14 +209,18 @@ section{
 }
 .day{
     position: relative;
-    font-size: 1.3rem;
-    font-weight: 400;
+    font-size: 1.2rem;
+    font-weight: 500;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--light-color);
     transition: .3s ease-in-out;
     border: .3px solid var(--dark-color);
+
+    cursor: pointer;
+
+    user-select: none;
 }
 
 .day:hover{
@@ -235,6 +239,13 @@ section{
 }
 .day.empty {
     background-color: #dedede ;
+    transition: .1s ease-in-out;
+    &:hover{
+        transition: .1s ease-in-out;
+        transform:translateY(-.5px);
+        box-shadow: 0px 2px #868082;
+        border-color: #191517;
+    }
 }
 
 .calculate-container{
