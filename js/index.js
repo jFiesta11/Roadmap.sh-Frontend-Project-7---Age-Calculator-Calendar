@@ -1,6 +1,6 @@
 // DateTime Import : Central Unit for calendar's data
 
-import {DateTime, Interval} from '../node_modules/luxon/build/es6/luxon.mjs'
+import { DateTime, Interval } from 'https://cdn.jsdelivr.net/npm/luxon@3.4.4/+esm';
     let now = DateTime.now().toLocal()
     const year = now.year
     const month = now.month
