@@ -1,4 +1,4 @@
-:root{
+﻿:root{
     --light-color:#F5F5F5;
     --dark-color:#2E282A;
     --second-color:#F15025;
@@ -24,14 +24,15 @@ body{
     background-color: var(--light-color);
 }
 .main-header{
-    height: 15%;
+    height: clamp(80px, 20%, 13vh);
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-size: 1.3rem;
+    align-items: end;
+    font-size: clamp( 2px, 2rem, 4vw);
     letter-spacing: .3rem;
 }
 .main-header h1{
+    text-align: center;
     font-weight: 400;
 }
 main{
@@ -240,7 +241,7 @@ section{
     grid-template-columns: repeat(7,1fr);
     grid-template-rows: repeat(6,1fr);
     background-color: var(--dark-color); 
-    gap: .5px; 
+    gap: 1px; 
     border: 2px solid var(--dark-color);
     
 }
