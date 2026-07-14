@@ -6,7 +6,7 @@
 ### This project does not fully follow the instructions of the given Roadmap task 
 
 ## Features:
-* Implements the Luxon npm 
+* Implements the [Luxon npm](https://www.npmjs.com/package/luxon) 
 * Practices how data management is important in a code, including the management of a large values like arrays of arrays 
 * Implements accurate calendar display including the empty and present squares in a calendar
 * The Datepicker UI was manually implemented
